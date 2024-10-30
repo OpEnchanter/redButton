@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1 id="score" class="score">0</h1>
+        <div class="base"></div>
+        <div class="buttonContainer">
+            <button class="nukeButton" onclick="increaseScore()">Click Me!</button>
+        </div>
+        <script>
+            var score = 0;
+            var resetChance = 0;
+            var scoreElem = document.getElementById("score");
+
+            function increaseScore() {
+                score++;
+
+                resetChance += 0.005;
+
+                if (Math.random() < resetChance) {
+                    score = 0;
+                    resetChance = 0;
+                }
+
+                scoreElem.innerText = score;
+            }
+        </script>
+    </body>
+</html>
