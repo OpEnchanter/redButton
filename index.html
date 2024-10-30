@@ -43,16 +43,6 @@
 
                 highScoreElem.innerText = `High: ${hiScore}`;
             }
-
-            function fixScore() {
-                if (score-1 >= oldScore) {
-                    score = oldScore;
-                }
-
-                oldScore = score;
-            }
-
-            setInterval(fixScore, 10);
         </script>
     </body>
 </html>
