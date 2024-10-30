@@ -22,6 +22,7 @@
             if (getCookie("highscore")) {
                 hiScore = getCookie("highscore");
                 highScoreElem.innerText = `High: ${hiScore}`;
+                setCookie("highscore", hiScore, 7)
             }
 
             function increaseScore() {
