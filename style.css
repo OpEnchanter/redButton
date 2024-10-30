@@ -5,7 +5,7 @@
 
 body {
     background-color: rgb(255, 247, 221);
-    overflow: none;
+    overflow: hidden;
 }
 
 .nukeButton {
@@ -107,8 +107,16 @@ body {
     color: white;
 }
 
-.shop > button {
-    width: 250px;
+.shopitm {
+    align-items: left;
+    margin: 10px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.shopitm > button {
+    width: 210px;
     height: 35px;
     background-color: white;
     font-family: "quicksand";
@@ -120,12 +128,57 @@ body {
     transition-duration: 100ms;
 }
 
-.shop > button:hover {
+.shopitm > button:hover {
     transform: translateY(2.5px);
     box-shadow: 0px 5px rgb(200, 200, 200);
+
+    cursor: pointer;
 }
 
-.shop > button:active {
+.shopitm > button:active {
     transform: translateY(7.5px);
     box-shadow: 0px 0px rgb(200, 200, 200);
+}
+
+.price {
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    font-family: "quicksand";
+    border: none;
+    border-radius: 5px;
+
+    box-shadow: 0px 7.5px rgb(200, 200, 200);
+
+    transition-duration: 100ms;
+
+    margin-left: 5px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.achievements {
+    width: 350px;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 100%;
+    transform: translateX(-50px);
+    background-color: rgb(193, 185, 158);
+    transition: cubic-bezier(.17,.97,.69,.99) 300ms;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.achievements:hover {
+    transform: translateX(-100%);
+}
+
+.achievements > h1 {
+    font-family: "quicksand";
+    color: white;
 }

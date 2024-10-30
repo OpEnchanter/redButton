@@ -13,7 +13,17 @@
         </div>
         <div class="shop">
             <h1>Shop</h1>
-            <button>Shop Item</button>
+            <div class="shopitm">
+                <button id="shopbtn" onclick="upgradeScorePerClick()">+1 Score per Click</button>
+                <div class="price">10c</div>
+            </div>
+            <div class="shopitm" id="clickspercoinitem">
+                <button id="shopbtn" onclick="upgradeClicksPerCoin()">-1 Clicks per Coin</button>
+                <div class="price">30c</div>
+            </div>
+        </div>
+        <div class="achievements">
+            <h1>Achievements</h1>
         </div>
         
 
@@ -25,12 +35,23 @@
             var scoreElem = document.getElementById("score");
             var highScoreElem = document.getElementById("highscore");
             var coinsElem = document.getElementById("coins");
+            var clickspercoinitem = document.getElementById("clickspercoinitem");
+
+
             var hiScore = 0;
 
             var clicks = 0;
 
+            var scoreperclick = 1;
+            var clickspercoin = 10;
+
             const press = new Audio("resources/press.mp3");
-            const depress = new Audio("resources/depress.mp3")
+            const depress = new Audio("resources/depress.mp3");
+
+            const shopbtnpress = new Audio("resources/shopbtnpress.mp3");
+            const shopbtndepress = new Audio("resources/shopbtnpress.mp3");
+
+            const ding = new Audio("resources/ding.mp3")
 
             const button = document.getElementById("button");
 
@@ -46,8 +67,18 @@
                 setCookie("coins", coins, 7)
             }
 
+            if (getCookie("scoreperclick")) {
+                scoreperclick = Number(getCookie("scoreperclick"));
+                setCookie("scoreperclick", scoreperclick, 7)
+            }
+
+            if (getCookie("clickspercoin")) {
+                clickspercoin = Number(getCookie("clickspercoin"));
+                setCookie("clickspercoin", clickspercoin, 7)
+            }
+
             button.addEventListener('mousedown', () => {
-                score++;
+                score += scoreperclick;
 
                 resetChance += 0.005;
 
@@ -70,7 +101,7 @@
 
                 clicks++;
 
-                if (clicks > 5) {
+                if (clicks >= clickspercoin) {
                     coins++;
                     coinsElem.innerText = `Coins: ${coins}`;
                     clicks = 0;
@@ -82,6 +113,58 @@
                 depress.currentTime = 0;
                 depress.play();
             });
+
+            var shopButtons = document.querySelectorAll("#shopbtn");
+
+            shopButtons.forEach(elem => {
+                elem.addEventListener('mousedown', () => {
+                    shopbtnpress.currentTime = 0;
+                    shopbtnpress.play();
+                });
+
+                elem.addEventListener('mouseup', () => {
+                    shopbtndepress.currentTime = 0;
+                    shopbtndepress.play();
+                });
+            })
+
+            function upgradeScorePerClick() {
+                if (coins >= 10) {
+                    coins -= 10;
+                    coinsElem.innerText = `Coins: ${coins}`;
+
+
+                    scoreperclick += 1;
+                    setCookie("coins", coins, 7);
+                    setCookie("scoreperclick", scoreperclick, 7);
+
+                    ding.currentTime = 0;
+                    ding.play();
+                }
+            }
+
+            function upgradeClicksPerCoin() {
+                if (coins >= 30) {
+                    coins -= 30;
+                    coinsElem.innerText = `Coins: ${coins}`;
+
+
+                    clickspercoin -= 1;
+                    setCookie("coins", coins, 7);
+                    setCookie("clickspercoin", clickspercoin, 7);
+
+                    ding.currentTime = 0;
+                    ding.play();
+                }
+            }
+
+            function updateAvailableUpgrades() {
+                if (clickspercoin <= 1) {
+                    clickspercoinitem.remove();
+                }
+            }
+
+            setInterval(updateAvailableUpgrades, 100);
         </script>
     </body>
 </html>
