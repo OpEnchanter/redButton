@@ -10,12 +10,19 @@
         <div class="buttonContainer">
             <button class="nukeButton" onclick="increaseScore()">Click Me!</button>
         </div>
+        <script src="extras.js"></script>
         <script>
             var score = 0;
             var resetChance = 0;
             var scoreElem = document.getElementById("score");
             var highScoreElem = document.getElementById("highscore");
             var hiScore = 0;
+            var oldScore = 0;
+
+            if (getCookie("highscore")) {
+                hiScore = getCookie("highscore");
+                highScoreElem.innerText = `High: ${hiScore}`;
+            }
 
             function increaseScore() {
                 score++;
@@ -31,10 +38,21 @@
 
                 if (score > hiScore) {
                     hiScore = score;
+                    setCookie("highscore", hiScore, 7)
                 }
 
                 highScoreElem.innerText = `High: ${hiScore}`;
             }
+
+            function fixScore() {
+                if (score-1 >= oldScore) {
+                    score = oldScore;
+                }
+
+                oldScore = score;
+            }
+
+            setInterval(fixScore, 10);
         </script>
     </body>
 </html>
