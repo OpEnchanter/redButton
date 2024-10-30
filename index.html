@@ -5,27 +5,48 @@
     </head>
     <body>
         <h1 id="score" class="score">0</h1>
-        <h1 id="highscore" class="highscore">High: 0</h1>
+        <h1 id="highscore" class="highscore">Max: 0</h1>
+        <h1 id="coins" class="coins">Coins: 0</h1>
         <div class="base"></div>
         <div class="buttonContainer">
-            <button class="nukeButton" onclick="increaseScore()"><strong>Click Me!</strong></button>
+            <button class="nukeButton" id="button"><strong></strong></button>
         </div>
+        <div class="shop">
+            <h1>Shop</h1>
+            <button>Shop Item</button>
+        </div>
+        
+
         <script src="extras.js"></script>
         <script>
             var score = 0;
+            var coins = 0;
             var resetChance = 0;
             var scoreElem = document.getElementById("score");
             var highScoreElem = document.getElementById("highscore");
+            var coinsElem = document.getElementById("coins");
             var hiScore = 0;
-            var oldScore = 0;
+
+            var clicks = 0;
+
+            const press = new Audio("resources/press.mp3");
+            const depress = new Audio("resources/depress.mp3")
+
+            const button = document.getElementById("button");
 
             if (getCookie("highscore")) {
                 hiScore = getCookie("highscore");
-                highScoreElem.innerText = `High: ${hiScore}`;
+                highScoreElem.innerText = `Max: ${hiScore}`;
                 setCookie("highscore", hiScore, 7)
             }
 
-            function increaseScore() {
+            if (getCookie("coins")) {
+                coins = getCookie("coins");
+                coinsElem.innerText = `Coins: ${coins}`;
+                setCookie("coins", coins, 7)
+            }
+
+            button.addEventListener('mousedown', () => {
                 score++;
 
                 resetChance += 0.005;
@@ -39,11 +60,28 @@
 
                 if (score > hiScore) {
                     hiScore = score;
-                    setCookie("highscore", hiScore, 7)
+                    setCookie("highscore", hiScore, 7);
                 }
 
-                highScoreElem.innerText = `High: ${hiScore}`;
-            }
+                highScoreElem.innerText = `Max: ${hiScore}`;
+
+                press.currentTime = 0;
+                press.play();
+
+                clicks++;
+
+                if (clicks > 5) {
+                    coins++;
+                    coinsElem.innerText = `Coins: ${coins}`;
+                    clicks = 0;
+                    setCookie("coins", coins, 7);
+                }
+            });
+
+            button.addEventListener('mouseup', () => {
+                depress.currentTime = 0;
+                depress.play();
+            });
         </script>
     </body>
 </html>
